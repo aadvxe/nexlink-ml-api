@@ -1,48 +1,43 @@
 # nexlink-ml-api
 
-## Directory Structure
-
-- **backend/**: Contains the FastAPI backend application.
-- **model/**: Contains the model retraining script.
-
 ## Setup
 
-### Backend
-
-1. Navigate to the `backend` directory:
-    ```
-    cd backend
-    ```
-
-2. Install dependencies:
+1. Install dependencies:
     ```
     pip install -r requirements.txt
     ```
 
-3. Run the application:
+2. Run the application:
     ```
     uvicorn app.main:app --reload
     ```
 
-4. Build and run Docker container:
-    ```
-    docker build -t image-name .
-    docker run -p 8000:8000 image-name
-    ```
+### Predict Task
 
-### Model Retraining
+**Endpoint**
 
-1. Navigate to the `model` directory:
-    ```
-    cd model
-    ```
+`POST /transform_and_schedule
 
-2. Install dependencies:
-    ```
-    pip install -r requirements.txt
-    ```
+**Headers**
 
-3. Run the retraining script:
-    ```
-    python retrain_model.py
-    ```
+- Authorization: Bearer `<JWT_TOKEN>`
+- Content-Type: `<application/json>`
+
+**Body**
+```json
+{
+    "data": {
+        "tasks": [
+            {
+                "taskId": "2",
+                "name": "Pengujian User Acceptance (UAT)",
+                "description": "Pengujian User Acceptance (UAT)",
+                "status": "in-progress",
+                "startDate": "2024-01-02",
+                "userID": "1",
+                "priority": "high",
+                "projectId": "1"
+            }
+        ]
+    }
+}
