@@ -1,15 +1,20 @@
+# Use the official Python image from the Docker Hub
 FROM python:3.9-slim
 
+# Set the working directory
 WORKDIR /app
 
-COPY requirements.txt /app
+# Copy the requirements file into the container
+COPY requirements.txt .
 
+# Install the required packages
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /app
+# Copy the rest of the application code into the container
+COPY . .
 
-EXPOSE 80
+# Expose the port that Flask/Gunicorn will listen on
+EXPOSE 8080
 
-ENV PYTHONUNBUFFERED=1
-
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+# Command to run the Flask application using Gunicorn
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "main:app"]
